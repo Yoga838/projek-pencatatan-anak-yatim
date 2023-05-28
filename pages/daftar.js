@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import React from 'react';
 
-export default function Index() {
+export default function Daftar() {
   return (
     <>
       <meta charset="utf-8" />
@@ -22,7 +23,7 @@ export default function Index() {
               </div>
             
               <div className="d-flex align-items-center justify-content-center h-custom-2 px-3 ms-xl-4 mt-4 pt-5 pt-xl-0 mt-xl-n5">
-                <form className="row g-4">
+                <form className="ro w g-4">
                     <div className="col-sm-6">
                         <label htmlFor="inputNamaLengkap" className="form-label">Nama Lengkap</label>
                         <input type="text" className="form-control" id="namaLengkapInput" placeholder="Masukkan Nama Lengkap" />
@@ -66,7 +67,7 @@ export default function Index() {
                     </div>
 
                     <p className='d-flex justify-content-center mt-5'>
-                        Sudah memiliki akun? <a href="/" className="link-info">Login</a>
+                        Sudah memiliki akun? <Link href="/" className="link-info">Login</Link>
                     </p>
                 </form>
               </div>

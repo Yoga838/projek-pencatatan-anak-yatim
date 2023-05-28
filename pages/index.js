@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 export default function Index() {
@@ -42,12 +43,12 @@ export default function Index() {
                     <label htmlFor="floatingPassword">Password</label>
                   </div>
                   <div className="pt-1 mb-4 d-flex justify-content-center">
-                    <a href=''><button className="btn btn-lg btn-block text-light" type="button" style={{ backgroundColor: '#002B5B'}}>
+                    <Link href="home"><button className="btn btn-lg btn-block text-light" type="button" style={{ backgroundColor: '#002B5B'}}>
                       Masuk
-                    </button></a>
+                    </button></Link>
                   </div>
                   <p className='d-flex justify-content-center mt-5 pt-5'>
-                    Belum memiliki akun? <a href="daftar" className="link-info">Daftar</a>
+                    Belum memiliki akun? <Link href="daftar" className="link-info">Daftar</Link>
                   </p>
                 </form>
               </div>
