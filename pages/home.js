@@ -1,7 +1,65 @@
 import React from 'react'
 import Link from 'next/link';
+import { useState,useEffect } from 'react';
+import Router from 'next/router';
+import nookies from 'nookies'
+
+export async function getServerSideProps(ctx){
+    const cookies = nookies.get(ctx)
+  
+    if(!cookies.token){
+      return{
+        redirect:{
+          destination : '/'
+      }
+      }
+    }
+    return{
+      props: {}
+    }
+  }
+  
 
 export default function home() {
+    //data setter and getter
+    const [data,setdata] = useState([])
+    //function get data on load page
+    useEffect(() => {
+        async function getdata(){
+            const response = await fetch("/api/getdaftar",{
+                method:"GET",
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            const data = await response.json()
+            setdata(data)
+        }
+        getdata()
+    },[])
+    
+
+    // search function
+    const[search,setsearch]=useState('')
+    const filterdata = search
+  ? data.filter(item=>
+      item.nik.includes(search)
+      )
+  : data 
+
+    //set click data to detail data
+    const handleButtonClick = (item) => {
+        senddata(item.id,item.nama)
+      };
+      function senddata(setId,setName){
+        Router.push({
+          pathname : "data_diri",
+          query: {
+            id:setId,
+            name:setName
+          }
+        })
+      }
   return (
     <>
         <title>Home</title>
@@ -29,19 +87,24 @@ export default function home() {
         </div>
 
         <div class="input-group mb-3 ps-5 pe-5">
-            <input type="text" class="form-control" placeholder="Masukkan NIK" aria-label="NIK" aria-describedby="basic-addon2" style={{borderRadius: '30px 0px 0px 30px', border: '1px solid grey'}}/>
-            <button className='btn rounded-pills' style={{border:' 1px solid grey ', borderRadius: '0px 30px 30px 0px'}}><img src='/images/search.png'></img></button>
+            <input value={search} onChange={(e)=>{setsearch(e.target.value)}} type="text" class="form-control" placeholder="Masukkan NIK" aria-label="NIK" aria-describedby="basic-addon2" style={{borderRadius: '30px 0px 0px 30px', border: '1px solid grey'}}/>
+            <button onClick={(e)=>{getsearch()}} className='btn rounded-pills' style={{border:' 1px solid grey ', borderRadius: '0px 30px 30px 0px'}}><img src='/images/search.png'></img></button>
         </div>
-        <div className='d-flex justify-content-center pt-4'>
-            <div class="mb-3 d-flex align-items-center justify-content-between" style={{backgroundColor: '#A5D7E8', width:'1220px', borderRadius:'30px'}}>
+        <div className='d-flex flex-column align-items-center  pt-4'>
+
+            {/* data looping */}
+            {filterdata.map((dat,Index) =>(
+            <div key={dat.id} onClick={(e)=>{e.stopPropagation,handleButtonClick(dat)}} class="mb-3 d-flex  align-items-center justify-content-between" style={{backgroundColor: '#A5D7E8', width:'1220px', borderRadius:'30px'}}>
                 <div className='d-flex ps-4 gap-5'>
-                    <h5>1234566789</h5>
-                    <h5>Gigih Fajrul Rizky</h5>
+                    <h5>{dat.nik}</h5>
+                    <h5>{dat.nama}</h5>
                 </div>
                 <div className=''>
                     <Link href="data_diri"><button className='btn rounded-pills'><img src='/images/icon.png'></img></button></Link>
                 </div>
             </div>
+            ))}
+
         </div>
         
         <Link href="tambah_data">

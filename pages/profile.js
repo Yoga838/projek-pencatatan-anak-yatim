@@ -1,17 +1,57 @@
 import Link from 'next/link';
 import React from 'react';
 import { useState, useEffect } from 'react';
+import nookies from 'nookies'
+import Router from 'next/router';
+
+
+export async function getServerSideProps(ctx){
+  const cookies = nookies.get(ctx)
+
+  if(!cookies.token){
+    return{
+      redirect:{
+        destination : '/'
+    }
+    }
+  }
+  return{
+    props: {}
+  }
+}
+
 
 
 export default function profile() {
-
+    //set pop up
     const [tampil2,setTampil2] = useState(false)
     const pop = () => {
       setTampil2(true)
     } 
     const notpop = () => {
-      setTampil2(false)
+      nookies.destroy(null,'token')
+      Router.replace('/')
     }
+    //set data setter
+    const [data,setdata] = useState([])
+    //getter data from api
+    useEffect(()=>{
+      const cookie = nookies.get('token')
+      const cookies = cookie.token
+      const send = {"token":cookies}
+      async function getdata(){
+        const response = await fetch("/api/getprofil",{
+          method:"POST",
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body:JSON.stringify(send)
+        })
+        const data = await response.json()
+        setdata(data)
+      }
+      getdata()
+    },[])
 
   return (
     <>
@@ -51,35 +91,35 @@ export default function profile() {
                 <div class="mb-3 d-flex flex-column" style={{backgroundColor: '#A5D7E8', width:'1220px', borderRadius:'20px', height:'600px'}}>
                     <div className='d-flex flex-column ps-4 pt-4'>
                         <h10>Email : </h10>
-                        <h7>joko@gmail.com</h7>
+                        <h7>{data.email}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Nama Lengkap : </h10>
-                        <h7>Joko Widodo</h7>
+                        <h7>{data.nama}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Provinsi : </h10>
-                        <h7>Jawa Timur</h7>
+                        <h7>{data.provinsi}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Kabupaten : </h10>
-                        <h7>Jember</h7>
+                        <h7>{data.kabupaten}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Kecamatan : </h10>
-                        <h7>Gumuk Mas</h7>
+                        <h7>{data.kecamatan}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Desa : </h10>
-                        <h7>Karangrejo</h7>
+                        <h7>{data.desa}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Alamat Kantor Pemerintahan Desa : </h10>
-                        <h7>Jl. Melati No.99 Banjarejo</h7>
+                        <h7>{data.alamat_kantor}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Kode Pos : </h10>
-                        <h7>301911</h7>
+                        <h7>{data.kode_pos}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Password : </h10>
@@ -104,8 +144,8 @@ export default function profile() {
                 <img src="/images/centang.png" alt=""/>
                 <h1 className="fw-bold text-light pt-4">Apakah Anda Ingin Keluar?</h1>
                 <div className='d-flex gap-5 pb-2 pt-4'>
-                    <Link href="/"><button className="btn btn-success shadow rounded-pill text-white" style={{backgroundColor:"#00B407", width:"100px"}}>IYA</button></Link>
-                    <Link href="profile"><button className="btn shadow rounded-pill text-white" style={{backgroundColor:'#DF0202', width:"100px"}} onClick={notpop}>TIDAK</button></Link>
+                    <button onClick={notpop} className="btn btn-success shadow rounded-pill text-white" style={{backgroundColor:"#00B407", width:"100px"}}>IYA</button>
+                    <Link href="profile"><button className="btn shadow rounded-pill text-white" style={{backgroundColor:'#DF0202', width:"100px"}} >TIDAK</button></Link>
                 </div>
               </div>
             </div>

@@ -1,7 +1,106 @@
 import Link from 'next/link';
 import React from 'react';
+import { useEffect,useState } from 'react';
+import nookies from 'nookies';
+import Router from 'next/router';
+
+export async function getServerSideProps(ctx){
+  const cookies = nookies.get(ctx)
+
+  if(!cookies.token){
+    return{
+      redirect:{
+        destination : '/'
+    }
+    }
+  }
+  return{
+    props: {}
+  }
+}
+
 
 export default function edit_profile() {
+
+  //gettoken 
+  const cookie = nookies.get('token')
+  const cookies = cookie.token
+  //set data setter
+  const[data,setdata] = useState([])
+  //set data getter
+  useEffect(()=>{
+    const cookie = nookies.get('token')
+    const cookies = cookie.token
+    const send ={
+      'token':cookies
+    }
+    async function getdata(){
+      const response = await fetch('/api/getprofil',{
+        method:"POST",
+        headers:{
+          'Content-type':'application/json'
+        },
+        body:JSON.stringify(send)
+      })
+      const data = await response.json()
+      setdata(data)
+    }
+    getdata()
+  },[])
+  //data optionnaly set
+  const [EMAIL,setemail] = useState()
+  const [NAMA,setnama] = useState()
+  const [PROVINSI,setprovinsi] = useState()
+  const [KABUPATEN,setkabupaten] = useState()
+  const [KECAMATAN,setkecamatan] = useState()
+  const [DESA,setdesa] = useState()
+  const [ALAMAT_KANTOR,setalamat_kantor] = useState()
+  const [KODE_POS,setkode_pos] = useState()
+  const [password,setpassword] = useState()
+
+  const email = EMAIL || data.email
+  const nama = NAMA || data.nama
+  const provinsi = PROVINSI || data.provinsi
+  const kabupaten = KABUPATEN || data.kabupaten
+  const kecamatan = KECAMATAN || data.kecamatan
+  const desa = DESA || data.desa
+  const alamat_kantor= ALAMAT_KANTOR || data.alamat_kantor
+  const kode_pos= KODE_POS || data.kode_pos
+
+  const send={
+    'token':cookies,
+    "nama":nama,
+    "email":email,
+    "password":password,
+    "provinsi":provinsi,
+    "kabupaten":kabupaten,
+    "kecamatan":kecamatan,
+    "desa":desa,
+    "kode_pos":kode_pos,
+    "alamat_kantor":alamat_kantor,
+    
+  }
+
+
+  // function edit profil
+  async function edit_profile(){
+    const response = await fetch('/api/editprofil',{
+      method:"POST",
+      headers:{
+        'Content-type':'application/json'
+      },
+      body:JSON.stringify(send)
+    })
+    const data = await response.json()
+    if (data.message != "data berhasil diperbarui"){
+      alert(data.message)
+    }
+    else{
+      alert(data.message)
+      Router.replace('profile')
+    }
+  }
+
   return (
     <>
       <meta charset="utf-8" />
@@ -37,49 +136,49 @@ export default function edit_profile() {
               </div>
             
               <div className="d-flex align-items-center justify-content-center h-custom-2 px-3 ms-xl-4 mt-4 pt-5 pt-xl-0 mt-xl-n5">
-                <form className="row g-4 ps-5 pe-5">
+                <div className="row g-4 ps-5 pe-5">
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputEmail" className="form-label">Email</label>
-                        <input type="text" className="form-control" id="emailInput" placeholder="joko@gmail.com"/>
+                        <input value={email} onChange={(e)=>setemail(e.target.value)} type="text" className="form-control" id="emailInput" />
                     </div>
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputNama" className="form-label">Nama</label>
-                        <input type="text" className="form-control" id="NamaInput" placeholder="Joko Widodo"/>
+                        <input value={nama} onChange={(e)=>setnama(e.target.value)} type="text" className="form-control" id="NamaInput" />
                     </div>
 
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputProvinsi" className="form-label">Provinsi</label>
-                        <input type="text" className="form-control" id="provinsiInput" placeholder="jawa timur" />
+                        <input value={provinsi} onChange={(e)=>setprovinsi(e.target.value)} type="text" className="form-control" id="provinsiInput"/>
                     </div>
 
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputKabupaten" className="form-label">Kabupaten</label>
-                        <input type="text" className="form-control" id="kabupatenInput" placeholder="Jember" />
+                        <input value={kabupaten} onChange={(e)=>setkabupaten(e.target.value)} type="text" className="form-control" id="kabupatenInput"  />
                     </div>
         
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputKecamatan" className="form-label">Kecamatan</label>
-                        <input type="text" className="form-control" id="kecamatanInput" placeholder="Gumuk mas" />
+                        <input value={kecamatan} onChange={(e)=>setkecamatan(e.target.value)} type="text" className="form-control" id="kecamatanInput" />
                     </div>
 
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputDesa" className="form-label">Desa</label>
-                        <input type="text" className="form-control" id="desaInput" placeholder="Karangrejo" />
+                        <input value={desa} onChange={(e)=>setdesa(e.target.value)} type="text" className="form-control" id="desaInput"  />
                     </div>
 
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputAlamat" className="form-label">Alamat Kantor Pemerintahan Desa:</label>
-                        <input type="text" className="form-control" id="alamatInput" placeholder="JL. Melati No.99 Banjarejo"/>
+                        <input value={alamat_kantor} onChange={(e)=>setalamat_kantor(e.target.value)} type="text" className="form-control" id="alamatInput"/>
                     </div>
 
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputKodePos" className="form-label">Kode Pos</label>
-                        <input type="text" className="form-control" id="kodePosInput" placeholder="301911"/>
+                        <input value={kode_pos} onChange={(e)=>setkode_pos(e.target.value)} type="text" className="form-control" id="kodePosInput" />
                     </div>
 
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputPassword" className="form-label">Password</label>
-                        <input type="password" className="form-control" id="passwordInput" placeholder="JokoJawir"/>
+                        <input value={password} onChange={(e)=>setpassword(e.target.value)} type="password" className="form-control" id="passwordInput" placeholder="Masukkan password atau ganti password untuk update data"/>
                     </div>
 
                     <div className='d-flex justify-content-end pe-5 pb-5'>
@@ -87,10 +186,10 @@ export default function edit_profile() {
                             <Link href="profile"><button type="submit" className="btn text-light" style={{width: '200px',height:'50px' ,backgroundColor:'#DF0202', fontWeight:'bold', borderRadius:'20px'}}>Batal</button></Link>
                         </div>
                         <div className="col-sm-auto" style={{marginTop: '45px',}}>
-                            <Link href="profile"><button type="submit" className="btn text-light" style={{width: '200px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'20px'}}>Simpan</button></Link>
+                            <button type="submit" onClick={(e)=>edit_profile()} className="btn text-light" style={{width: '200px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'20px'}}>Simpan</button>
                         </div>
                     </div>
-                </form>
+                </div>
               </div>
             </div>
         </div>

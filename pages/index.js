@@ -1,12 +1,57 @@
 import Link from 'next/link';
 import React from 'react';
+import { useState } from 'react';
+import nookies from 'nookies'
+import Router from 'next/router';
+
+export async function getServerSideProps(ctx){
+  const cookies = nookies.get(ctx)
+
+  if(cookies.token){
+    return{
+      redirect:{
+        destination : 'home'
+    }
+    }
+  }
+  return{
+    props: {}
+  }
+}
+
 
 export default function Index() {
+  // data collect
+  const [email,setemail] = useState('') 
+  const [password,setpassword] = useState('')
+  //data setter
+  const send = {
+    "email": email,
+    "password":password
+  } 
+  //function to call cek data login and route to the next page
+  async function login(){
+    const response = await fetch("/api/login",{
+      method:"POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify(send)
+    })
+    const data = await response.json()
+    if (data.token){
+      nookies.set(null,'token',data.token);
+      Router.push('home')
+    }
+    else{
+      console.log(data)
+    }
+  }
   return (
     <>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Bootstrap demo</title>
+      <title>Login</title>
       <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -35,17 +80,17 @@ export default function Index() {
               <div className="d-flex align-items-center justify-content-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
                 <form style={{ width: '23rem' }}>
                   <div className="form-floating mb-4">
-                    <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
+                    <input value={email} onChange={(e)=>setemail(e.target.value)} type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
                     <label htmlFor="floatingInput">Email</label>
                   </div>
                   <div className="form-floating mb-4">
-                    <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+                    <input value={password} onChange={(e)=>setpassword(e.target.value)} type="password" className="form-control" id="floatingPassword" placeholder="Password" />
                     <label htmlFor="floatingPassword">Password</label>
                   </div>
                   <div className="pt-1 mb-4 d-flex justify-content-center">
-                    <Link href="home"><button className="btn btn-lg btn-block text-light" type="button" style={{ backgroundColor: '#002B5B'}}>
+                    <button onClick={(e)=>{login()}} className="btn btn-lg btn-block text-light" type="button" style={{ backgroundColor: '#002B5B'}}>
                       Masuk
-                    </button></Link>
+                    </button>
                   </div>
                   <p className='d-flex justify-content-center mt-5 pt-5'>
                     Belum memiliki akun? <Link href="daftar" className="link-info">Daftar</Link>

@@ -1,7 +1,93 @@
 import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/router';
+import { useEffect,useState } from 'react';
+import nookies from 'nookies'
+
+export async function getServerSideProps(ctx){
+  const cookies = nookies.get(ctx)
+
+  if(!cookies.token){
+    return{
+      redirect:{
+        destination : '/'
+    }
+    }
+  }
+  return{
+    props: {}
+  }
+}
+
 
 export default function data_diri() {
+  //set userouter to variable
+  const Router = useRouter()
+  
+  //data from query
+  const {query:{id,name}} = Router
+    //set data to send
+  const send ={"id":Number(id)}
+  
+  //data setter getter
+  const [data,setdata]= useState([])
+
+  //setdata onload
+  useEffect(()=>{
+    const {query:{id,name}} = Router
+    //set data to send
+    const send ={"id":Number(id)}
+    async function getdata (){
+        const response = await fetch("/api/getdatadetail",{
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(send)
+        })
+        const data = await response.json()
+        setdata(data)
+    }
+    getdata()
+  },[Router])
+
+
+  //set format from iso dates to short dates
+  const formatShortDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+  
+    return `${day}-${month}-${year}`;
+  };
+
+  //function to delete data 
+  async function deletedata(){
+    const response = await fetch("/api/deletedata",{
+        method:"POST",
+        headers:{
+            "content-type":"application/json"
+        },
+        body:JSON.stringify(send)
+    })
+    const data = await response.json()
+    alert(data.message)
+    Router.replace('home')
+  }
+  //handlebuttonclick
+  const handleButtonClick = (item) => {
+    senddata(data.id,data.nama)
+  };
+  function senddata(setId,setName){
+    Router.push({
+      pathname : "edit_data",
+      query: {
+        id:setId,
+        name:setName
+      }
+    })
+  }
   return (
     <>
       <meta charset="utf-8" />
@@ -40,50 +126,50 @@ export default function data_diri() {
                 <div class="mb-3 d-flex flex-column" style={{backgroundColor: '#A5D7E8', width:'1220px', borderRadius:'20px', height:'670px'}}>
                     <div className='d-flex flex-column ps-4 pt-4'>
                         <h10>NIK : </h10>
-                        <h7>12345678910111213</h7>
+                        <h7>{data.nik}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Nama Lengkap : </h10>
-                        <h7>Gigih Fajrul Rizky</h7>
+                        <h7>{data.nama}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Tempat, Tanggal Lahir : </h10>
-                        <h7>Jember, 17-07-2003</h7>
+                        <h7>{data.tempat_lahir}, {formatShortDate(data.tanggal_lahir)}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Status : </h10>
-                        <h7>Yatim-Piatu</h7>
+                        <h7>{data.status}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Anak ke : </h10>
-                        <h7>2</h7>
+                        <h7>{data.anak_ke}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Jumlah Saudara : </h10>
-                        <h7>2</h7>
+                        <h7>{data.jumlah_saudara}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Pendidikan : </h10>
-                        <h7>MTS</h7>
+                        <h7>{data.pendidikan}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Nama Ayah : </h10>
-                        <h7>Sudarsono Malik Ibrahim</h7>
+                        <h7>{data.nama_ayah}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Nama Ibu : </h10>
-                        <h7>Cut Nyak Rahayu</h7>
+                        <h7>{data.nama_ibu}</h7>
                     </div>
                     <div className='d-flex flex-column ps-4 pt-3'>
                         <h10>Kondisi : </h10>
-                        <h7>Kurang Mampu</h7>
+                        <h7>{data.kondisi}</h7>
                     </div>
                 <div className='d-flex justify-content-end pb-5'>
                         <div className="col-sm-auto me-3" style={{marginTop: '45px',}}>
-                            <Link href="home"><button type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#DF0202', fontWeight:'bold', borderRadius:'30px'}}>Hapus</button></Link>
+                            <button onClick={(e)=>deletedata()} type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#DF0202', fontWeight:'bold', borderRadius:'30px'}}>Hapus</button>
                         </div>
                         <div className="col-sm-auto" style={{marginTop: '45px',}}>
-                            <Link href="edit_data"><button type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'30px'}}>Edit</button></Link>
+                            <button onClick={(e)=>handleButtonClick()} type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'30px'}}>Edit</button>
                         </div>
                     </div>
                 </div>

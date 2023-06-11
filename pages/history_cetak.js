@@ -1,7 +1,60 @@
 import React from 'react'
 import Link from 'next/link';
+import { useEffect,useState } from 'react';
+import nookies from 'nookies'
+
+export async function getServerSideProps(ctx){
+  const cookies = nookies.get(ctx)
+
+  if(!cookies.token){
+    return{
+      redirect:{
+        destination : '/'
+    }
+    }
+  }
+  return{
+    props: {}
+  }
+}
+
 
 export default function history_cetak() {
+  //data setter getter
+  const [data,setdata] = useState([])
+  //getter data from api
+  useEffect(()=>{
+
+    async function getdata(){
+      const response = await fetch("/api/gethistory",{
+        method:"GET",
+        headers:{
+          'content-type':'application/json'
+        }
+      })
+      const data = await response.json()
+      setdata(data)
+    }
+    getdata()
+  },[])
+  //function change iso date to short date
+  function isoToShortFormat(isoDate) {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  }
+
+  //function search 
+  const [search,setsearch]= useState('')
+  const filterdata = search
+  ? data.filter(item=>
+      item.nik.includes(search)
+      )
+  : data 
+
   return (
     <>
         <title>Tem.u</title>
@@ -29,7 +82,7 @@ export default function history_cetak() {
         </div>
 
         <div class="input-group mb-3 ps-5 pe-5">
-            <input type="text" class="form-control" placeholder="Masukkan NIK" aria-label="NIK" aria-describedby="basic-addon2" style={{borderRadius: '30px 0px 0px 30px', border: '1px solid grey'}}/>
+            <input value={search} onChange={(e)=>setsearch(e.target.value)} type="text" class="form-control" placeholder="Masukkan NIK" aria-label="NIK" aria-describedby="basic-addon2" style={{borderRadius: '30px 0px 0px 30px', border: '1px solid grey'}}/>
             <button className='btn rounded-pills' style={{border:' 1px solid grey ', borderRadius: '0px 30px 30px 0px'}}><img src='/images/search.png'></img></button>
         </div>
         <div className="tabel table-responsive ps-5 pe-5 pt-3">
@@ -45,14 +98,19 @@ export default function history_cetak() {
               </tr>
             </thead>
             <tbody className="text-center" style={{border: '2px solid black'}}>
-                <tr>
-                  <td style={{border: '2px solid black'}}>1</td>
-                  <td style={{border: '2px solid black'}}>12-03-2023</td>
-                  <td style={{border: '2px solid black'}}>12345678910111213</td>
-                  <td style={{border: '2px solid black'}}>Gigih fajrul Rizky</td>
-                  <td style={{border: '2px solid black'}}>joko</td>
-                  <td style={{border: '2px solid black'}}>Surat Kematian - SKTM</td>
-                </tr>
+
+                 {filterdata.map((dat,index)=>(
+                  <tr key={dat.id}>
+                    <td style={{border: '2px solid black'}}>{index+1}</td>
+                    <td style={{border: '2px solid black'}}>{isoToShortFormat(dat.tanggal)}</td>
+                    <td style={{border: '2px solid black'}}>{dat.nik}</td>
+                    <td style={{border: '2px solid black'}}>{dat.nama}</td>
+                    <td style={{border: '2px solid black'}}>{dat.pegawai}</td>
+                    <td style={{border: '2px solid black'}}>{dat.keterangan}</td>
+                  </tr>
+                  ))}
+               
+               
             </tbody>
           </table>
         </div>

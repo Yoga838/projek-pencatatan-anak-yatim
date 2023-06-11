@@ -1,7 +1,71 @@
 import Link from 'next/link';
+import Router from 'next/router';
 import React from 'react';
+import { useState } from 'react';
+import nookies from 'nookies'
+
+export async function getServerSideProps(ctx){
+  const cookies = nookies.get(ctx)
+
+  if(cookies.token){
+    return{
+      redirect:{
+        destination : 'home'
+    }
+    }
+  }
+  return{
+    props: {}
+  }
+}
+
 
 export default function Daftar() {
+  //data getter
+  const [nama,setnama] = useState('')
+  const [email,setemail] = useState('')
+  const [password,setpassword] = useState('')
+  const [provinsi,setprovinsi] = useState('')
+  const [kabupaten,setkabupaten] = useState('')
+  const [kecamatan,setkecamatan] = useState('')
+  const [kode_pos,setkodepos] = useState('')
+  const [alamat_kantor,setalamatkantor] = useState('')
+  const [desa,setdesa] = useState('')
+  
+  //data setter
+  const send ={
+    "nama":nama,
+    "email":email,
+    "password":password,
+    "provinsi":provinsi,
+    "kabupaten":kabupaten,
+    "kecamatan":kecamatan,
+    "kode_pos":kode_pos,
+    "alamat_kantor":alamat_kantor,
+    "desa":desa
+  }
+
+  //data post
+  async function register(){
+    const response = await fetch("/api/register",{
+      method:"PUT",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(send)
+    }
+    )
+    const data = await response.json()
+    if(data.message == "Registrasi Berhasil"){
+      const confirm = window.confirm(data.message)
+      if(confirm){
+        Router.replace('/')
+      }
+    }
+    else{
+      alert(data.message)
+    }
+  }
   return (
     <>
       <meta charset="utf-8" />
@@ -23,53 +87,53 @@ export default function Daftar() {
               </div>
             
               <div className="d-flex align-items-center justify-content-center h-custom-2 px-3 ms-xl-4 mt-4 pt-5 pt-xl-0 mt-xl-n5">
-                <form className="ro w g-4">
+                <div className="row g-4">
                     <div className="col-sm-6">
                         <label htmlFor="inputNamaLengkap" className="form-label">Nama Lengkap</label>
-                        <input type="text" className="form-control" id="namaLengkapInput" placeholder="Masukkan Nama Lengkap" />
+                        <input value={nama} onChange={(e)=>setnama(e.target.value)} type="text" className="form-control" id="namaLengkapInput" placeholder="Masukkan Nama Lengkap" />
                     </div>
                     <div className="col-sm-6">
                         <label htmlFor="inputKecamatan" className="form-label">Kecamatan</label>
-                        <input type="text" className="form-control" id="kecamatanInput" placeholder="Masukkan Nama Kecamatan" />
+                        <input value={kecamatan} onChange={(e)=>setkecamatan(e.target.value)} type="text" className="form-control" id="kecamatanInput" placeholder="Masukkan Nama Kecamatan" />
                     </div>
 
                     <div className="col-sm-6">
                         <label htmlFor="inputEmail" className="form-label">Email</label>
-                        <input type="email" className="form-control" id="emailInput" placeholder="Masukkan Email" />
+                        <input value={email} onChange={(e)=>setemail(e.target.value)} type="email" className="form-control" id="emailInput" placeholder="Masukkan Email" />
                     </div>
 
                     <div className="col-sm-6">
                         <label htmlFor="inputDesa" className="form-label">Desa</label>
-                        <input type="text" className="form-control" id="desaInput" placeholder="Masukkan Nama Desa" />
+                        <input value={desa} onChange={(e)=>setdesa(e.target.value)} type="text" className="form-control" id="desaInput" placeholder="Masukkan Nama Desa" />
                     </div>
                     <div className="col-sm-6">
                         <label htmlFor="inputPassword" className="form-label">Password</label>
-                        <input type="Password" className="form-control" id="passwordInput" placeholder="Masukkan Password" />
+                        <input value={password} onChange={(e)=>setpassword(e.target.value)} type="Password" className="form-control" id="passwordInput" placeholder="Masukkan Password" />
                     </div>
                     <div className="col-sm-6">
                         <label htmlFor="inputKodePos" className="form-label">Kode Pos</label>
-                        <input type="text" className="form-control" id="kodePosInput" placeholder="Masukkan Kode Pos" />
+                        <input value={kode_pos} onChange={(e)=>setkodepos(e.target.value)} type="text" className="form-control" id="kodePosInput" placeholder="Masukkan Kode Pos" />
                     </div>
                     <div className="col-sm-6">
                         <label htmlFor="inputProvinsi" className="form-label">Provinsi</label>
-                        <input type="text" className="form-control" id="provinsiInput" placeholder="Masukkan Nama Provinsi" />
+                        <input value={provinsi} onChange={(e)=>setprovinsi(e.target.value)} type="text" className="form-control" id="provinsiInput" placeholder="Masukkan Nama Provinsi" />
                     </div>
                     <div className="col-sm-6">
                         <label htmlFor="inputAlamatKantor" className="form-label">Alamat Kantor Pemerintahan Desa</label>
-                        <input type="text" className="form-control" id="alamatKantorInput" placeholder="Masukkan Alamat Kantor" />
+                        <input value={alamat_kantor} onChange={(e)=>setalamatkantor(e.target.value)} type="text" className="form-control" id="alamatKantorInput" placeholder="Masukkan Alamat Kantor" />
                     </div>
                     <div className="col-sm-6">
                         <label htmlFor="inputKabupaten" className="form-label">Kabupaten</label>
-                        <input type="text" className="form-control" id="kabupatenInput1" placeholder="Masukkan Nama Kabupaten" />
+                        <input value={kabupaten} onChange={(e)=>setkabupaten(e.target.value)} type="text" className="form-control" id="kabupatenInput1" placeholder="Masukkan Nama Kabupaten" />
                     </div>
                     <div className="col-sm-6" style={{marginTop: '45px',}}>
-                        <button type="submit" className="btn text-light" style={{width: '360px',height:'50px' ,backgroundColor:'#002B5B', fontWeight:'bold'}}>Daftar</button>
+                        <button type="submit" onClick={(e)=>register()} className="btn text-light" style={{width: '360px',height:'50px' ,backgroundColor:'#002B5B', fontWeight:'bold'}}>Daftar</button>
                     </div>
 
                     <p className='d-flex justify-content-center mt-5'>
                         Sudah memiliki akun? <Link href="/" className="link-info">Login</Link>
                     </p>
-                </form>
+                </div>
               </div>
             </div>
 
