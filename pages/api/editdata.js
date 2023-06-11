@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma from '../../lib/prisma'
 export default async function handler(req,res){
     if(req.method === "PATCH"){
         const {nik,nama,tanggal_lahir,tempat_lahir,status,anak_ke,jumlah_saudara,pendidikan,nama_ayah,nama_ibu,kondisi,id} = req.body

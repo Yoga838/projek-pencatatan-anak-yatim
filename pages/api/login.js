@@ -1,5 +1,6 @@
 import { sign } from "jsonwebtoken";
-import prisma from "@/lib/prisma";
+import prisma from '../../lib/prisma'
+
 const JWT_SECRET = "My-Lover";
 import { compare } from "bcrypt";
 export default async function handler(req, res){

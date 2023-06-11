@@ -1,4 +1,5 @@
-import prisma from "@/lib/prisma";
+import prisma from '../../lib/prisma'
+
 import { verify,sign } from "jsonwebtoken";
 const JWT_SECRET = 'My-Lover';
 
