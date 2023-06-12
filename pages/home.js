@@ -88,7 +88,7 @@ export default function home() {
 
         <div class="input-group mb-3 ps-5 pe-5">
             <input value={search} onChange={(e)=>{setsearch(e.target.value)}} type="text" class="form-control" placeholder="Masukkan NIK" aria-label="NIK" aria-describedby="basic-addon2" style={{borderRadius: '30px 0px 0px 30px', border: '1px solid grey'}}/>
-            <button onClick={(e)=>{getsearch()}} className='btn rounded-pills' style={{border:' 1px solid grey ', borderRadius: '0px 30px 30px 0px'}}><img src='/images/search.png'></img></button>
+            <button className='btn rounded-pills' style={{border:' 1px solid grey ', borderRadius: '0px 30px 30px 0px'}}><img src='/images/search.png'></img></button>
         </div>
         <div className='d-flex flex-column align-items-center  pt-4'>
 
