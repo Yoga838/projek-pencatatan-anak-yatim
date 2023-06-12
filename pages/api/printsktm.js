@@ -34,6 +34,7 @@ export default async function handler(req, res) {
              linebreaks: true,
          });
          const data = {
+            "kabupaten":datadiri.kabupaten,
              "desa":datadiri.desa,
              "nama":dataanak.nama,
              "nik":dataanak.nik,

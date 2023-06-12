@@ -41,6 +41,8 @@ export default function cetak() {
     }
     getdata()
   },[])
+
+  //function to cetak
   async function cetak(item){
     const send = {
       "id":item.id,
