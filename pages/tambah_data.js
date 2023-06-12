@@ -59,23 +59,25 @@ export default function tambah_data() {
     if(length != 16){
         alert("NIK anda kurang atau lebih")
     }
-      const response = await fetch("/api/tambahdata",{
-          method:"POST",
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body:JSON.stringify(send)
-      })
-      const data = await response.json()
-      if(data.message == "Data berhasil ditambahkan"){
-          const alert = confirm(data.message)
-          if(alert){
-              Router.push("home")
-          }
-      }
-      else{
-          alert(data.message)
-      } 
+    else{
+        const response = await fetch("/api/tambahdata",{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(send)
+        })
+        const data = await response.json()
+        if(data.message == "Data berhasil ditambahkan"){
+            const alert = confirm(data.message)
+            if(alert){
+                Router.push("home")
+            }
+        }
+        else{
+            alert(data.message)
+        } 
+    }
   }
   else{
     const send = {
