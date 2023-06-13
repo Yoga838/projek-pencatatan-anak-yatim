@@ -4,6 +4,7 @@ import React from 'react';
 import { useState } from 'react';
 import nookies from "nookies"
 
+
 export async function getServerSideProps(ctx){
     const cookies = nookies.get(ctx)
   
@@ -118,6 +119,8 @@ export default function tambah_data() {
 }
   }
   }
+  
+  
 
   return (
     <>
@@ -202,10 +205,22 @@ export default function tambah_data() {
                         <label htmlFor="inputNamaAyah" className="form-label">Nama Ayah</label>
                         <input value={nama_ayah} onChange={(e)=>setnamaayah(e.target.value)} type="text" className="form-control" id="namaAyahInput" placeholder="Masukkan Nama Ayah" />
                     </div>
+                    
+                    <div className={status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputNamaAyah" className="form-label">data yatim-piatu</label>
+                        <input value={nama_ayah} onChange={(e)=>setnamaayah(e.target.value)} type="text" className="form-control" id="namaAyahInput" placeholder="Masukkan Nama Ayah" />
+                    </div>
+
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputNamaIbu" className="form-label">Nama Ibu</label>
                         <input value={nama_ibu} onChange={(e)=>setnamaibu(e.target.value)} type="text" className="form-control" id="namaIbuInput" placeholder="Masukkan Nama Ibu" />
                     </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputNamaIbu" className="form-label">data yatim-piatu</label>
+                        <input value={nama_ibu} onChange={(e)=>setnamaibu(e.target.value)} type="text" className="form-control" id="namaIbuInput" placeholder="Masukkan Nama Ibu" />
+                    </div>
+
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputKondisi" className="form-label">Kondisi</label>
                         <select value={kondisi} onChange={(e)=>setkondisi(e.target.value)} className="form-select" id="inputGroupSelect01">
