@@ -47,7 +47,8 @@ export default function cetak() {
   async function cetak(item){
     const send = {
       "id":item.id,
-      "token":cookies
+      "token":cookies,
+      "keterangan":"Cetak Surat - SKTM"
     }
     try{
       const response = await fetch('api/printsktm',{
@@ -89,7 +90,8 @@ export default function cetak() {
   async function cetak_skk_ayah(item){
     const send = {
       "id":item.id,
-      "token":cookies
+      "token":cookies,
+      "keterangan":"Cetak Surat - SKK ayah"
     }
     try{
       const response = await fetch('api/printskkayah',{
@@ -130,7 +132,8 @@ export default function cetak() {
    async function cetak_skk_ibu(item){
     const send = {
       "id":item.id,
-      "token":cookies
+      "token":cookies,
+      "keterangan":"Cetak Surat - SKK ibu"
     }
     try{
       const response = await fetch('api/printskkibu',{

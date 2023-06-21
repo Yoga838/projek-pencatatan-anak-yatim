@@ -6,7 +6,7 @@ const JWT_SECRET = 'My-Lover';
 
 export default async function handler(req,res){
     if(req.method === "POST"){
-        const {token,id}=req.body
+        const {token,id,keterangan}=req.body
         if(!token||!id){
             return res.status(200).json({message:"data tidak boleh kosong"})
         }
@@ -17,7 +17,7 @@ export default async function handler(req,res){
         const data = await prisma.data.findUnique({where:{id:Number(id)}})
         const nik = data.nik
         const nama = data.nama
-        const keterangan = "Cetak Surat - SKTM"
+        
         const tanggal = new Date;
         
         const get_akun = await prisma.akun.findUnique({where:{id:Number(idUser)}})
