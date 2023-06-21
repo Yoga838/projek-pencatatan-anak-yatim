@@ -35,6 +35,23 @@ export default function tambah_data() {
   const [nama_ibu,setnamaibu] = useState('')
   const [kondisi,setkondisi] = useState('')
 
+  //optional kondisi yatim //piatu//atau keduanya
+  const [tempat_lahir_ayah,set_tempat_lahir_ayah] = useState('');
+  const [tanggal_lahir_ayah,set_tanggal_lahir_ayah] = useState('');
+  const [jenis_kelamin_ayah,set_jenis_kelamin_ayah] = useState('');
+  const [umur_ayah,set_umur_ayah] = useState('');
+  const [hari_meninggal_ayah,set_hari_meninggal_ayah] = useState('');
+  const [tanggal_meninggal_ayah,set_tanggal_meninggal_ayah] = useState('');
+  const [meninggal_karena_ayah,set_meninggal_karena_ayah] = useState('');
+
+  const [tempat_lahir_ibu,set_tempat_lahir_ibu] = useState('');
+  const [tanggal_lahir_ibu,set_tanggal_lahir_ibu] = useState('');
+  const [jenis_kelamin_ibu,set_jenis_kelamin_ibu] = useState('');
+  const [umur_ibu,set_umur_ibu] = useState('');
+  const [hari_meninggal_ibu,set_hari_meninggal_ibu] = useState('');
+  const [tanggal_meninggal_ibu,set_tanggal_meninggal_ibu] = useState('');
+  const [meninggal_karena_ibu,set_meninggal_karena_ibu] = useState('');
+
 
   // fetching data tambah
   async function tambah (){
@@ -54,7 +71,22 @@ export default function tambah_data() {
           "pendidikan":pendidikan,
           "nama_ayah":nama_ayah,
           "nama_ibu":nama_ibu,
-          "kondisi":kondisi
+          "kondisi":kondisi,
+          "tempat_lahir_ayah":tempat_lahir_ayah,
+          "tanggal_lahir_ayah":tanggal_lahir_ayah,
+          "jenis_kelamin_ayah":jenis_kelamin_ayah,
+          "umur_ayah":umur_ayah,
+          "hari_meninggal_ayah":hari_meninggal_ayah,
+          "tanggal_meninggal_ayah":tanggal_meninggal_ayah,
+          "meninggal_karena_ayah":meninggal_karena_ayah,
+          "tempat_lahir_ibu":tempat_lahir_ibu,
+          "tanggal_lahir_ibu":tanggal_lahir_ibu,
+          "jenis_kelamin_ibu":jenis_kelamin_ibu,
+          "umur_ibu":umur_ibu,
+          "hari_meninggal_ibu":hari_meninggal_ibu,
+          "tanggal_meninggal_ibu":tanggal_meninggal_ibu,
+          "meninggal_karena_ibu":meninggal_karena_ibu,
+
     }
     const length = nik.length
     if(length != 16){
@@ -92,7 +124,21 @@ export default function tambah_data() {
         "pendidikan":pendidikan,
         "nama_ayah":nama_ayah,
         "nama_ibu":nama_ibu,
-        "kondisi":kondisi
+        "kondisi":kondisi,
+        "tempat_lahir_ayah":tempat_lahir_ayah,
+        "tanggal_lahir_ayah":tanggal_lahir_ayah,
+        "jenis_kelamin_ayah":jenis_kelamin_ayah,
+        "umur_ayah":umur_ayah,
+        "hari_meninggal_ayah":hari_meninggal_ayah,
+        "tanggal_meninggal_ayah":tanggal_meninggal_ayah,
+        "meninggal_karena_ayah":meninggal_karena_ayah,
+        "tempat_lahir_ibu":tempat_lahir_ibu,
+        "tanggal_lahir_ibu":tanggal_lahir_ibu,
+        "jenis_kelamin_ibu":jenis_kelamin_ibu,
+        "umur_ibu":umur_ibu,
+        "hari_meninggal_ibu":hari_meninggal_ibu,
+        "tanggal_meninggal_ibu":tanggal_meninggal_ibu,
+        "meninggal_karena_ibu":meninggal_karena_ibu,
   }
   const length = nik.length
   if(length != 16){
@@ -126,7 +172,7 @@ export default function tambah_data() {
     <>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>daftar</title>
+      <title>Tambah Data</title>
       <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -206,19 +252,79 @@ export default function tambah_data() {
                         <input value={nama_ayah} onChange={(e)=>setnamaayah(e.target.value)} type="text" className="form-control" id="namaAyahInput" placeholder="Masukkan Nama Ayah" />
                     </div>
                     
-                    <div className={status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
-                        <label htmlFor="inputNamaAyah" className="form-label">data yatim-piatu</label>
-                        <input value={nama_ayah} onChange={(e)=>setnamaayah(e.target.value)} type="text" className="form-control" id="namaAyahInput" placeholder="Masukkan Nama Ayah" />
+                    <div className={status === 'Yatim' ?( 'col-sm-6 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTempatLahir" className="form-label">Tempat Lahir</label>
+                        <input value={tempat_lahir_ayah} onChange={(e)=>set_tempat_lahir_ayah(e.target.value)} type="text" className="form-control" id="namaTempatLahir" placeholder="Masukkan Tempat Lahir Ayah"/>
                     </div>
 
+                    <div className={status === 'Yatim' ?( 'col-sm-6 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTanggalLahir" className="form-label">tanggal Lahir</label>
+                        <input value={tanggal_lahir_ayah} onChange={(e)=>set_tanggal_lahir_ayah(e.target.value)} type="date" className="form-control" id="namaTanggalLahir" placeholder="Masukkan Tanggal Lahir Ayah"/>
+                    </div>
+
+                    <div className={status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputJenisKelamin" className="form-label">Jenis Kelamin</label>
+                        <input value={jenis_kelamin_ayah} onChange={(e)=>set_jenis_kelamin_ayah(e.target.value)} type="text" className="form-control" id="jenisKelaminInput" placeholder="Masukkan Jenis Kelamin Ayah" />
+                    </div>
+
+                    <div className={status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputUmur" className="form-label">Umur</label>
+                        <input value={umur_ayah} onChange={(e)=>set_umur_ayah(e.target.value)} type="text" className="form-control" id="umurInput" placeholder="Masukkan Umur Ayah" />
+                    </div>
+
+                    <div className={status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Hari Meninggal</label>
+                        <input value={hari_meninggal_ayah} onChange={(e)=>set_hari_meninggal_ayah(e.target.value)} type="text" className="form-control" id="hariInput" placeholder="Masukkan hari meninggal Ayah" />
+                    </div>
+
+                    <div className={status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Tanggal Meninggal</label>
+                        <input value={tanggal_meninggal_ayah} onChange={(e)=>set_tanggal_meninggal_ayah(e.target.value)} type="date" className="form-control" id="hariInput" placeholder="Masukkan Tanggal Meninggal Ayah" />
+                    </div>
+
+                    <div className={status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputMeninggal" className="form-label">Meninggal Karena</label>
+                        <input value={meninggal_karena_ayah} onChange={(e)=>set_meninggal_karena_ayah(e.target.value)} type="text" className="form-control" id="meninggalInput" placeholder="Masukkan Meninggal Karena?" />
+                    </div>
+                    
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputNamaIbu" className="form-label">Nama Ibu</label>
                         <input value={nama_ibu} onChange={(e)=>setnamaibu(e.target.value)} type="text" className="form-control" id="namaIbuInput" placeholder="Masukkan Nama Ibu" />
                     </div>
 
+                    <div className={status === 'Piatu' ?( 'col-sm-6 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTempatLahir" className="form-label">Tempat Lahir</label>
+                        <input value={tempat_lahir_ibu} onChange={(e)=>set_tempat_lahir_ibu(e.target.value)} type="text" className="form-control" id="namaTempatLahir" placeholder="Masukkan Tempat Lahir Ibu"/>
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-6 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTanggalLahir" className="form-label">Tanggal Lahir</label>
+                        <input value={tanggal_lahir_ibu} onChange={(e)=>set_tanggal_lahir_ibu(e.target.value)} type="date" className="form-control" id="namaTanggalLahir" placeholder="Masukkan Tanggal Lahir Ibu"/>
+                    </div>
+
                     <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
-                        <label htmlFor="inputNamaIbu" className="form-label">data yatim-piatu</label>
-                        <input value={nama_ibu} onChange={(e)=>setnamaibu(e.target.value)} type="text" className="form-control" id="namaIbuInput" placeholder="Masukkan Nama Ibu" />
+                        <label  htmlFor="inputJenisKelamin" className="form-label">Jenis Kelamin</label>
+                        <input value={jenis_kelamin_ibu} onChange={(e)=>set_jenis_kelamin_ibu(e.target.value)} type="text" className="form-control" id="jenisKelaminInput" placeholder="Masukkan Jenis Kelamin Ibu" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputUmur" className="form-label">Umur</label>
+                        <input value={umur_ibu} onChange={(e)=>set_umur_ibu(e.target.value)} type="text" className="form-control" id="umurInput" placeholder="Masukkan Umur Ibu" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Hari Meninggal</label>
+                        <input value={hari_meninggal_ibu} onChange={(e)=>set_hari_meninggal_ibu(e.target.value)} type="text" className="form-control" id="hariInput" placeholder="Masukkan hari meninggal" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Tanggal Meninggal</label>
+                        <input value={tanggal_meninggal_ibu} onChange={(e)=>set_tanggal_meninggal_ibu(e.target.value)} type="date" className="form-control" id="hariInput" placeholder="Masukkan Tanggal Meninggal" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputMeninggal" className="form-label">Meninggal Karena</label>
+                        <input value={meninggal_karena_ibu} onChange={(e)=>set_meninggal_karena_ibu(e.target.value)} type="text" className="form-control" id="meninggalInput" placeholder="Masukkan Meninggal Karena?" />
                     </div>
 
                     <div className="col-sm-12 ps-5 pe-5">

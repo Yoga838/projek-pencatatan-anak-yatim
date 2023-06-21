@@ -44,7 +44,7 @@ export default function Index() {
       Router.push('home')
     }
     else{
-      console.log(data)
+      alert(data.message)
     }
   }
   return (

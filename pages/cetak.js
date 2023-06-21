@@ -83,6 +83,89 @@ export default function cetak() {
       alert('Terjadi kesalahan saat menghasilkan dokumen')
     }
   }
+
+  //function cetak skk ayah
+  async function cetak_skk_ayah(item){
+    const send = {
+      "id":item.id,
+      "token":cookies
+    }
+    try{
+      const response = await fetch('api/printskkayah',{
+        method:"POST",
+        headers:{
+          'content-type':'application/json'
+
+        },
+        body:JSON.stringify(send)
+      })
+
+      const response2 = await fetch('api/makehistory',{
+        method:"POST",
+        headers:{
+          'content-type':'application/json'
+
+        },
+        body:JSON.stringify(send)
+      })
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      //unduh dokumen 
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'SKK Ayah.docx';
+      link.click();
+
+      //hapus objek URL setelah selesai
+      URL.revokeObjectURL(url);
+    }
+    catch(error){
+      alert('Terjadi kesalahan saat menghasilkan dokumen')
+    }
+  }
+   //function cetak skk ibu
+   async function cetak_skk_ibu(item){
+    const send = {
+      "id":item.id,
+      "token":cookies
+    }
+    try{
+      const response = await fetch('api/printskkibu',{
+        method:"POST",
+        headers:{
+          'content-type':'application/json'
+
+        },
+        body:JSON.stringify(send)
+      })
+
+      const response2 = await fetch('api/makehistory',{
+        method:"POST",
+        headers:{
+          'content-type':'application/json'
+
+        },
+        body:JSON.stringify(send)
+      })
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      //unduh dokumen 
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'SKK Ibu.docx';
+      link.click();
+
+      //hapus objek URL setelah selesai
+      URL.revokeObjectURL(url);
+    }
+    catch(error){
+      alert('Terjadi kesalahan saat menghasilkan dokumen')
+    }
+  }
     //function to search 
     const [search,setsearch] = useState('')
     const filterdata = search
@@ -121,6 +204,11 @@ export default function cetak() {
             <input value={search} onChange={(e)=>setsearch(e.target.value)} type="text" class="form-control" placeholder="Masukkan NIK" aria-label="NIK" aria-describedby="basic-addon2" style={{borderRadius: '30px 0px 0px 30px', border: '1px solid grey'}}/>
             <button className='btn rounded-pills' style={{border:' 1px solid grey ', borderRadius: '0px 30px 30px 0px'}}><img src='/images/search.png'></img></button>
         </div>
+
+        <button className="btn rounded-pills btn-md text-light button-cetak fw-bold" type="button" style={{ backgroundColor: '#00B407', borderRadius:'30px'}}>
+                Cetak Data
+        </button>
+
         <div className="tabel table-responsive ps-5 pe-5 pt-3">
           <table id='table-to-xls' className="table table-bordered border-dark" style={{border: '2px solid black'}}>
             <thead className="text-center fw-bold" style={{border: '2px solid black', backgroundColor:'#A5D7E8'}}>
@@ -129,6 +217,7 @@ export default function cetak() {
                 <td style={{border: '2px solid black'}}>NIK</td>
                 <td style={{border: '2px solid black'}}>Nama</td>
                 <td style={{border: '2px solid black'}}>SKTM</td>
+                <td style={{border: '2px solid black'}}>Surat Kematian</td>
               </tr>
             </thead>
             <tbody className="text-center" style={{border: '2px solid black'}}>
@@ -136,13 +225,26 @@ export default function cetak() {
                 <tr key={dat.id}>
                   <td style={{border: '2px solid black'}}>{index+1}</td>
                   <td style={{border: '2px solid black'}}>{dat.nik}</td>
-                  <td style={{border: '2px solid black'}}>{dat.nama}</td>
+                  <td style={{border: '2px solid black'}}>{dat.nama}</td> 
                   {dat.kondisi == "Mampu"?(
                     <td style={{border: '2px solid black'}}><button  className='btn btn-danger rounded' style={{backgroundColor:'#FF0000', color:'black'}}>Tidak tersedia</button></td> 
                     ):(
                       <td style={{border: '2px solid black'}}><button onClick={(e)=>{cetak(dat)}} className='btn btn-success rounded' style={{backgroundColor:'#73E42E', color:'black'}}>Cetak</button></td>
                   )}
                   {/* <td style={{border: '2px solid black'}}><button className='btn btn-danger rounded' style={{backgroundColor:'#FF0000', color:'black'}}>Tidak tersedia</button></td> */}
+                  <td style={{border: '2px solid black'}}>
+                  {dat.status === "Yatim" ? (
+                    <button className='btn  rounded' onClick={(e)=>{cetak_skk_ayah(dat)}} style={{ backgroundColor:'#73E42E', color:'black', marginRight:'10px' }}>SKK Ayah</button>
+                  ) : dat.status === "Piatu" ? (
+                    <button className='btn  rounded' onClick={(e)=>{cetak_skk_ibu(dat)}} style={{ backgroundColor:'#73E42E', color:'black' }}>SKK Ibu</button>
+                  ) : (
+                    <React.Fragment>
+                      <button className='btn  rounded' onClick={(e)=>{cetak_skk_ayah(dat)}} style={{ backgroundColor:'#73E42E', color:'black', marginRight:'10px' }}>SKK Ayah</button>
+                      <button className='btn  rounded' onClick={(e)=>{cetak_skk_ibu(dat)}} style={{ backgroundColor:'#73E42E', color:'black' }}>SKK Ibu</button>
+                    </React.Fragment>
+                  )}
+
+                  </td>
                 </tr>
                 ))}
             </tbody>

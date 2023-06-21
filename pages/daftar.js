@@ -130,7 +130,7 @@ export default function Daftar() {
                         <button type="submit" onClick={(e)=>register()} className="btn text-light" style={{width: '360px',height:'50px' ,backgroundColor:'#002B5B', fontWeight:'bold'}}>Daftar</button>
                     </div>
 
-                    <p className='d-flex justify-content-center mt-5'>
+                    <p className='d-flex justify-content-center mt-4'>
                         Sudah memiliki akun? <Link href="/" className="link-info">Login</Link>
                     </p>
                 </div>

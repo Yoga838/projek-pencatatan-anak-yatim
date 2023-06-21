@@ -66,6 +66,10 @@ export default function edit_data() {
 
   //set shortdate
   const date = formatShortDate(data.tanggal_lahir)
+  const date2 = formatShortDate(data.tanggal_lahir_ayah)
+  const date3 = formatShortDate(data.tanggal_meninggal_ayah)
+  const date4 = formatShortDate(data.tanggal_lahir_ibu)
+  const date5 = formatShortDate(data.tanggal_meninggal_ibu)
   
   //setter data
   const [NIK,setnik]=useState()
@@ -79,7 +83,21 @@ export default function edit_data() {
   const [NAMA_AYAH,setnamaayah]=useState()
   const [NAMA_IBU,setnamaibu]=useState()
   const [KONDISI,setkondisi]=useState()
+  const [TEMPAT_LAHIR_AYAH,set_tempat_lahir_ayah]=useState('')
+  const [TANGGAL_LAHIR_AYAH,set_tanggal_lahir_ayah]=useState('')
+  const [JENIS_KELAMIN_AYAH,set_jenis_kelamin_ayah]=useState('')
+  const [UMUR_AYAH,set_umur_ayah]=useState('')
+  const [HARI_MENINGGAL_AYAH,set_hari_meninggal_ayah]=useState('')
+  const [TANGGAL_MENINGGAL_AYAH,set_tanggal_meninggal_ayah]=useState('')
+  const [MENINGGAL_KARENA_AYAH,set_meninggal_karena_ayah]=useState('')
 
+  const [TEMPAT_LAHIR_IBU,set_tempat_lahir_ibu]=useState('')
+  const [TANGGAL_LAHIR_IBU,set_tanggal_lahir_ibu]=useState('')
+  const [JENIS_KELAMIN_IBU,set_jenis_kelamin_ibu]=useState('')
+  const [UMUR_IBU,set_umur_ibu]=useState('')
+  const [HARI_MENINGGAL_IBU,set_hari_meninggal_ibu]=useState('')
+  const [TANGGAL_MENINGGAL_IBU,set_tanggal_meninggal_ibu]=useState('')
+  const [MENINGGAL_KARENA_IBU,set_meninggal_karena_ibu]=useState('')
 
   const nik = NIK || data.nik 
   const nama = NAMA || data.nama 
@@ -93,6 +111,22 @@ export default function edit_data() {
   const nama_ibu = NAMA_IBU || data.nama_ibu
   const kondisi = KONDISI || data.kondisi
 
+  //data optional yatim and piatu or optional
+  const tempat_lahir_ayah = TEMPAT_LAHIR_AYAH ||data.tempat_lahir_ayah
+  const tanggal_lahir_ayah = TANGGAL_LAHIR_AYAH ||date2
+  const jenis_kelamin_ayah = JENIS_KELAMIN_AYAH ||data.jenis_kelamin_ayah
+  const umur_ayah = UMUR_AYAH ||data.umur_ayah
+  const hari_meninggal_ayah = HARI_MENINGGAL_AYAH ||data.hari_meninggal_ayah
+  const tanggal_meninggal_ayah = TANGGAL_MENINGGAL_AYAH ||date3
+  const meninggal_karena_ayah = MENINGGAL_KARENA_AYAH || data.meninggal_karena_ayah
+
+  const tempat_lahir_ibu = TEMPAT_LAHIR_IBU ||data.tempat_lahir_ibu
+  const tanggal_lahir_ibu = TANGGAL_LAHIR_IBU ||date3
+  const jenis_kelamin_ibu = JENIS_KELAMIN_IBU ||data.jenis_kelamin_ibu
+  const umur_ibu = UMUR_IBU ||data.umur_ibu
+  const hari_meninggal_ibu = HARI_MENINGGAL_IBU ||data.hari_meninggal_ibu
+  const tanggal_meninggal_ibu = TANGGAL_MENINGGAL_IBU ||date4
+  const meninggal_karena_ibu = MENINGGAL_KARENA_IBU || data.meninggal_karena_ibu
   
   async function edit_data (){
     const tanggal = new Date(tanggal_lahir).toISOString()
@@ -110,7 +144,21 @@ export default function edit_data() {
         "pendidikan":pendidikan,
         "nama_ayah":nama_ayah,
         "nama_ibu":nama_ibu,
-        "kondisi":kondisi
+        "kondisi":kondisi,
+        "tempat_lahir_ayah":tempat_lahir_ayah,
+        "tanggal_lahir_ayah":tanggal_lahir_ayah,
+        "jenis_kelamin_ayah":jenis_kelamin_ayah,
+        "umur_ayah":umur_ayah,
+        "hari_meninggal_ayah":hari_meninggal_ayah,
+        "tanggal_meninggal_ayah":tanggal_meninggal_ayah,
+        "meninggal_karena_ayah":meninggal_karena_ayah,
+        "tempat_lahir_ibu":tempat_lahir_ibu,
+        "tanggal_lahir_ibu":tanggal_lahir_ibu,
+        "jenis_kelamin_ibu":jenis_kelamin_ibu,
+        "umur_ibu":umur_ibu,
+        "hari_meninggal_ibu":hari_meninggal_ibu,
+        "tanggal_meninggal_ibu":tanggal_meninggal_ibu,
+        "meninggal_karena_ibu":meninggal_karena_ibu
     }
 
     const response = await fetch("/api/editdata",{
@@ -139,7 +187,7 @@ export default function edit_data() {
     <>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>daftar</title>
+      <title>Edit Data</title>
       <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -219,10 +267,82 @@ export default function edit_data() {
                         <label htmlFor="inputNamaAyah" className="form-label">Nama Ayah</label>
                         <input value={nama_ayah} onChange={(e)=>setnamaayah(e.target.value)} type="text" className="form-control" id="namaAyahInput" placeholder="Masukkan Nama Ayah" />
                     </div>
+
+                    <div className={data.status === 'Yatim' ?( 'col-sm-6 ps-5 pe-5 d-block') : data.status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTempatLahir" className="form-label">Tempat Lahir</label>
+                        <input value={tempat_lahir_ayah} onChange={(e)=>set_tempat_lahir_ayah(e.target.value)} type="text" className="form-control" id="namaTempatLahir" placeholder="Masukkan Tempat Lahir Ayah"/>
+                    </div>
+
+                    <div className={data.status === 'Yatim' ?( 'col-sm-6 ps-5 pe-5 d-block') : data.status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTanggalLahir" className="form-label">tanggal Lahir</label>
+                        <input value={tanggal_lahir_ayah} onChange={(e)=>set_tanggal_lahir_ayah(e.target.value)} type="date" className="form-control" id="namaTanggalLahir" placeholder="Masukkan Tanggal Lahir Ayah"/>
+                    </div>
+
+                    <div className={data.status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : data.status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputJenisKelamin" className="form-label">Jenis Kelamin</label>
+                        <input value={jenis_kelamin_ayah} onChange={(e)=>set_jenis_kelamin_ayah(e.target.value)} type="text" className="form-control" id="jenisKelaminInput" placeholder="Masukkan Jenis Kelamin Ayah" />
+                    </div>
+
+                    <div className={data.status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : data.status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputUmur" className="form-label">Umur</label>
+                        <input value={umur_ayah} onChange={(e)=>set_umur_ayah(e.target.value)} type="text" className="form-control" id="umurInput" placeholder="Masukkan Umur Ayah" />
+                    </div>
+
+                    <div className={data.status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : data.status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Hari Meninggal</label>
+                        <input value={hari_meninggal_ayah} onChange={(e)=>set_hari_meninggal_ayah(e.target.value)} type="text" className="form-control" id="hariInput" placeholder="Masukkan hari meninggal Ayah" />
+                    </div>
+
+                    <div className={data.status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : data.status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Tanggal Meninggal</label>
+                        <input value={tanggal_meninggal_ayah} onChange={(e)=>set_tanggal_meninggal_ayah(e.target.value)} type="date" className="form-control" id="hariInput" placeholder="Masukkan Tanggal Meninggal Ayah" />
+                    </div>
+
+                    <div className={data.status === 'Yatim' ?( 'col-sm-12 ps-5 pe-5 d-block') : data.status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputMeninggal" className="form-label">Meninggal Karena</label>
+                        <input value={meninggal_karena_ayah} onChange={(e)=>set_meninggal_karena_ayah(e.target.value)} type="text" className="form-control" id="meninggalInput" placeholder="Masukkan Meninggal Karena?" />
+                    </div>
+
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputNamaIbu" className="form-label">Nama Ibu</label>
                         <input value={nama_ibu} onChange={(e)=>setnamaibu(e.target.value)} type="text" className="form-control" id="namaIbuInput" placeholder="Masukkan Nama Ibu" />
                     </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-6 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTempatLahir" className="form-label">Tempat Lahir</label>
+                        <input value={tempat_lahir_ibu} onChange={(e)=>set_tempat_lahir_ibu(e.target.value)} type="text" className="form-control" id="namaTempatLahir" placeholder="Masukkan Tempat Lahir Ibu"/>
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-6 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-6 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputTanggalLahir" className="form-label">Tanggal Lahir</label>
+                        <input value={tanggal_lahir_ibu} onChange={(e)=>set_tanggal_lahir_ibu(e.target.value)} type="date" className="form-control" id="namaTanggalLahir" placeholder="Masukkan Tanggal Lahir Ibu"/>
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label  htmlFor="inputJenisKelamin" className="form-label">Jenis Kelamin</label>
+                        <input value={jenis_kelamin_ibu} onChange={(e)=>set_jenis_kelamin_ibu(e.target.value)} type="text" className="form-control" id="jenisKelaminInput" placeholder="Masukkan Jenis Kelamin Ibu" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputUmur" className="form-label">Umur</label>
+                        <input value={umur_ibu} onChange={(e)=>set_umur_ibu(e.target.value)} type="text" className="form-control" id="umurInput" placeholder="Masukkan Umur Ibu" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Hari Meninggal</label>
+                        <input value={hari_meninggal_ibu} onChange={(e)=>set_hari_meninggal_ibu(e.target.value)} type="text" className="form-control" id="hariInput" placeholder="Masukkan hari meninggal" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputHari" className="form-label">Tanggal Meninggal</label>
+                        <input value={tanggal_meninggal_ibu} onChange={(e)=>set_tanggal_meninggal_ibu(e.target.value)} type="date" className="form-control" id="hariInput" placeholder="Masukkan Tanggal Meninggal" />
+                    </div>
+
+                    <div className={status === 'Piatu' ?( 'col-sm-12 ps-5 pe-5 d-block') : status === 'Yatim-Piatu'? ('col-sm-12 ps-5 pe-5 d-block' ):('d-none')}>
+                        <label htmlFor="inputMeninggal" className="form-label">Meninggal Karena</label>
+                        <input value={meninggal_karena_ibu} onChange={(e)=>set_meninggal_karena_ibu(e.target.value)} type="text" className="form-control" id="meninggalInput" placeholder="Masukkan Meninggal Karena?" />
+                    </div>
+
                     <div className="col-sm-12 ps-5 pe-5">
                         <label htmlFor="inputKondisi" className="form-label">Kondisi</label>
                         <select value={kondisi} onChange={(e)=>setkondisi(e.target.value)} className="form-select" id="inputGroupSelect01">
@@ -233,7 +353,7 @@ export default function edit_data() {
                     </div>
                     <div className='d-flex justify-content-end pe-5 pb-5'>
                         <div className="col-sm-auto me-5" style={{marginTop: '45px',}}>
-                            <Link href="data_diri"><button type="submit" className="btn text-light" style={{width: '200px',height:'50px' ,backgroundColor:'#DF0202', fontWeight:'bold', borderRadius:'20px'}}>Batal</button></Link>
+                            <button onClick={(e)=>{Router.back()}} type="submit" className="btn text-light" style={{width: '200px',height:'50px' ,backgroundColor:'#DF0202', fontWeight:'bold', borderRadius:'20px'}}>Batal</button>
                         </div>
                         <div className="col-sm-auto" style={{marginTop: '45px',}}>
                             <button onClick={(e)=>{e.stopPropagation(),edit_data()}} type="submit" className="btn text-light" style={{width: '200px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'20px'}}>Simpan</button>

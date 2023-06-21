@@ -123,7 +123,7 @@ export default function data_diri() {
             </div>
 
             <div className='d-flex justify-content-center pt-4 ps-5 pe-5'>
-                <div class="mb-3 d-flex flex-column" style={{backgroundColor: '#A5D7E8', width:'1220px', borderRadius:'20px', height:'670px'}}>
+                <div class="mb-3 pb-5 d-flex flex-column" style={{backgroundColor: '#A5D7E8', borderRadius:'20px',width:'200vh'}}>
                     <div className='d-flex flex-column ps-4 pt-4'>
                         <h10>NIK : </h10>
                         <h7>{data.nik}</h7>
@@ -164,7 +164,67 @@ export default function data_diri() {
                         <h10>Kondisi : </h10>
                         <h7>{data.kondisi}</h7>
                     </div>
-                <div className='d-flex justify-content-end pb-5'>
+                    <div className={data.status === 'Yatim' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>tempat lahir ayah : </h10>
+                        <h7>{data.tempat_lahir_ayah}</h7>
+                    </div>
+                    <div className={data.status === 'Yatim' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>tanggal lahir ayah : </h10>
+                        <h7>{formatShortDate(data.tanggal_lahir_ayah)}</h7>
+                    </div>
+                    <div className={data.status === 'Yatim' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>jenis kelamin ayah : </h10>
+                        <h7>{data.jenis_kelamin_ayah}</h7>
+                    </div>
+                    <div className={data.status === 'Yatim' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>umur ayah : </h10>
+                        <h7>{data.umur_ayah}</h7>
+                    </div>
+                    <div className={data.status === 'Yatim' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>hari meninggal ayah : </h10>
+                        <h7>{data.hari_meninggal_ayah}</h7>
+                    </div>
+                    <div className={data.status === 'Yatim' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>tanggal meninggal ayah : </h10>
+                        <h7>{formatShortDate(data.tanggal_meninggal_ayah)}</h7>
+                    </div>
+                    <div className={data.status === 'Yatim' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>meninggal karena ayah : </h10>
+                        <h7>{data.meninggal_karena_ayah}</h7>
+                    </div>
+                    
+                    <div className={data.status === 'Piatu' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>tempat lahir ibu : </h10>
+                        <h7>{data.tempat_lahir_ibu}</h7>
+                    </div>
+                    <div className={data.status === 'Piatu' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>tanggal lahir ibu : </h10>
+                        <h7>{formatShortDate(data.tanggal_lahir_ibu)}</h7>
+                    </div>
+                    <div className={data.status === 'Piatu' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>jenis kelamin ibu : </h10>
+                        <h7>{data.jenis_kelamin_ibu}</h7>
+                    </div>
+                    <div className={data.status === 'Piatu' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>umur ibu : </h10>
+                        <h7>{data.umur_ibu}</h7>
+                    </div>
+                    <div className={data.status === 'Piatu' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>hari meninggal ibu : </h10>
+                        <h7>{data.hari_meninggal_ibu}</h7>
+                    </div>
+                    <div className={data.status === 'Piatu' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>tanggal meninggal ibu : </h10>
+                        <h7>{formatShortDate(data.tanggal_meninggal_ibu)}</h7>
+                    </div>
+                    <div className={data.status === 'Piatu' ?('d-flex flex-column ps-4 pt-3 d-block'): data.status === 'Yatim-Piatu'?('d-flex flex-column ps-4 pt-3 d-block'):('d-none')  }>
+                        <h10>meninggal karena ibu : </h10>
+                        <h7>{data.meninggal_karena_ibu}</h7>
+                    </div>
+                </div>
+                </div>
+
+                <div className='d-flex justify-content-end pb-5 pe-5'>
                         <div className="col-sm-auto me-3" style={{marginTop: '45px',}}>
                             <button onClick={(e)=>deletedata()} type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#DF0202', fontWeight:'bold', borderRadius:'30px'}}>Hapus</button>
                         </div>
@@ -172,8 +232,6 @@ export default function data_diri() {
                             <button onClick={(e)=>handleButtonClick()} type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'30px'}}>Edit</button>
                         </div>
                     </div>
-                </div>
-                </div>
 
         </div>
       </section>
