@@ -31,7 +31,6 @@ export default async function handler(req,res){
 
             }
         })
-        res.send(id)
         return res.status(200).json({message:"berhasil menambah history"})
     }
 }
