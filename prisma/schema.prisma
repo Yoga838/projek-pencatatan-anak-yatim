@@ -34,20 +34,20 @@ model data{
   nama_ayah String
   nama_ibu String
   kondisi String
-  tempat_lahir_ayah String ? 
+  tempat_lahir_ayah String ? @default("-") 
   tanggal_lahir_ayah DateTime ? 
-  jenis_kelamin_ayah String ?
-  umur_ayah String ?
-  hari_meninggal_ayah  String ?
-  tanggal_meninggal_ayah  DateTime ?
-  meninggal_karena_ayah  String ?
-  tempat_lahir_ibu String ? 
+  jenis_kelamin_ayah String ?@default("-")
+  umur_ayah String ? @default("-")
+  hari_meninggal_ayah  String ? @default("-")
+  tanggal_meninggal_ayah  DateTime ? 
+  meninggal_karena_ayah  String ? @default("-")
+  tempat_lahir_ibu String ? @default("-")
   tanggal_lahir_ibu DateTime ? 
-  jenis_kelamin_ibu String ?
-  umur_ibu String ?
-  hari_meninggal_ibu  String ?
+  jenis_kelamin_ibu String ?@default("-")
+  umur_ibu String ?@default("-")
+  hari_meninggal_ibu  String ?@default("-")
   tanggal_meninggal_ibu  DateTime ?
-  meninggal_karena_ibu  String ?
+  meninggal_karena_ibu  String ?@default("-")
 }
 model history{
   id Int @id @default(autoincrement())

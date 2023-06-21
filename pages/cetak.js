@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link';
 import { useEffect,useState } from 'react';
 import nookies from 'nookies'
+import ExcelJS from 'exceljs';
 
 export async function getServerSideProps(ctx){
   const cookies = nookies.get(ctx)
@@ -166,6 +167,47 @@ export default function cetak() {
       alert('Terjadi kesalahan saat menghasilkan dokumen')
     }
   }
+
+  //function cetak all data anak yatim
+  async function cetak_data (){
+    const response = await fetch("/api/getdaftar",{
+      method:"GET",
+      headers:{
+        'content-type':'application/json'
+      }
+    })
+    const data = await response.json()
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Data');
+
+    // Add headers
+    const headers = Object.keys(data[0]);
+    worksheet.addRow(headers);
+
+    // Add data rows
+    data.forEach((row) => {
+      const rowData = Object.values(row);
+      worksheet.addRow(rowData);
+    });
+
+    // Set column widths
+    worksheet.columns.forEach((column) => {
+      column.width = 15;
+    });
+
+    // Generate Excel file
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const dataBlob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Data Anak Yatim.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }
+
     //function to search 
     const [search,setsearch] = useState('')
     const filterdata = search
@@ -205,7 +247,7 @@ export default function cetak() {
             <button className='btn rounded-pills' style={{border:' 1px solid grey ', borderRadius: '0px 30px 30px 0px'}}><img src='/images/search.png'></img></button>
         </div>
 
-        <button className="btn rounded-pills btn-md text-light button-cetak fw-bold" type="button" style={{ backgroundColor: '#00B407', borderRadius:'30px'}}>
+        <button onClick={(e)=>cetak_data()} className="btn rounded-pills btn-md text-light button-cetak fw-bold" type="button" style={{ backgroundColor: '#00B407', borderRadius:'30px'}}>
                 Cetak Data
         </button>
 
