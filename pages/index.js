@@ -1,112 +1,113 @@
-import Link from 'next/link';
-import React from 'react';
-import { useState } from 'react';
-import nookies from 'nookies'
-import Router from 'next/router';
+import React from 'react'
 
-export async function getServerSideProps(ctx){
-  const cookies = nookies.get(ctx)
-
-  if(cookies.token){
-    return{
-      redirect:{
-        destination : 'home'
-    }
-    }
-  }
-  return{
-    props: {}
-  }
-}
-
-
-export default function Index() {
-  // data collect
-  const [email,setemail] = useState('') 
-  const [password,setpassword] = useState('')
-  //data setter
-  const send = {
-    "email": email,
-    "password":password
-  } 
-  //function to call cek data login and route to the next page
-  async function login(){
-    const response = await fetch("/api/login",{
-      method:"POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body:JSON.stringify(send)
-    })
-    const data = await response.json()
-    if (data.token){
-      nookies.set(null,'token',data.token);
-      Router.push('home')
-    }
-    else{
-      alert(data.message)
-    }
-  }
+export default function landing() {
   return (
     <>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Login</title>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-        crossorigin="anonymous"
-      />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>y-team</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+            crossorigin="anonymous"
+        />
 
-      <section className="vh-100">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-6 px-0 d-none d-sm-block">
-              <img
-                src="/images/Rectangle 3.png"
-                alt="Login image"
-                className="w-100 vh-100"
-                style={{ objectFit: 'cover', objectPosition: 'right' }}
-              />
-            </div>
-
-            <div className="col-sm-6 text-black">
-              <div className="pt-5">
-                <span className="h2 fw-bold" style={{color: '#0B2447'}}><center>Selamat datang di website pendataan anak yatim piatu</center></span>
-                <span className="h7 fw-bold" style={{color: '#0B2447',}}><center style={{marginTop: '15px'}}>Dengan webiste ini maka pendataan akan lebih mudah digunakan</center></span>
-              </div>
-
-              <div className="d-flex align-items-center justify-content-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-                <form style={{ width: '23rem' }}>
-                  <div className="form-floating mb-4">
-                    <input value={email} onChange={(e)=>setemail(e.target.value)} type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
-                    <label htmlFor="floatingInput">Email</label>
-                  </div>
-                  <div className="form-floating mb-4">
-                    <input value={password} onChange={(e)=>setpassword(e.target.value)} type="password" className="form-control" id="floatingPassword" placeholder="Password" />
-                    <label htmlFor="floatingPassword">Password</label>
-                  </div>
-                  <div className="pt-1 mb-4 d-flex justify-content-center">
-                    <button onClick={(e)=>{login()}} className="btn btn-lg btn-block text-light" type="button" style={{ backgroundColor: '#002B5B'}}>
-                      Masuk
-                    </button>
-                  </div>
-                  <p className='d-flex justify-content-center mt-5 pt-5'>
-                    Belum memiliki akun? <Link href="daftar" className="link-info">Daftar</Link>
-                  </p>
-                </form>
-              </div>
-            </div>
-          </div>
+        <nav class="navbar navbar-light ">
+        <div class="container">
+            <a class="navbar-brand fw-bold">Y-TEAM</a>
+            <a className='btn' href='login' style={{backgroundColor: "#002B5B", color: "white", width: "100px"}}>Login</a>
         </div>
-      </section>
-
-      <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"
-      ></script>
+        </nav>
+        {/* hero */}
+        <section>
+            <div class="container">
+                <div class="row mt-5 d-flex align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="fw-bold">Sistem Pendataan <br/> Anak Yatim Desa <br/> XYZ</h1>
+                        <p>Y-Team adalah sebuah sistem yang dirancang khusus untuk 
+                            <br/>mengelola proses pendataan dan pemantauan kepada
+                            <br/>anak-anak yatim di Desa XYZ
+                        </p>
+                        <a className='btn' style={{backgroundColor: "#002B5B", color: "white", width: "150px"}}>Ajukan Data</a>
+                    </div>
+                    <div class="col-md-6">
+                        <img src='/images/hero.png' className='img-fluid d-none d-md-block'></img>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {/* form */}
+        <section>
+            <div class="container">
+                <div className='row mt-5 mb-5'>
+                    <h1 className='text-center'>Formulir Pengajuan Data Anak Yatim / Piatu</h1>
+                    <form>
+                        <div>
+                            <label>NIK :</label>
+                            <input type='text' placeholder='Masukkan NIK' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>Nama :</label>
+                            <input type='text' placeholder='Masukkan Nama' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>Tempat lahir :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>Tanggal lahir :</label>
+                            <input type='date' placeholder='mm/dd/yyyy' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>status :</label>
+                            <select className='form-select'>
+                                <option selected>Pilih status</option>
+                                <option value="Yatim">Yatim</option>
+                                <option value="Piatu">Piatu</option>
+                                <option value="Yatim-Piatu">Yatim-Piatu</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Anak Ke :</label>
+                            <input type='text' placeholder='Anak ke' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>Jumlah Saudara :</label>
+                            <input type='text' placeholder='Jumlah Saudara, tidak termasuk diri sendiri' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>Pendidikan :</label>
+                            <select className='form-select'>
+                                <option selected>Pilih jenjang</option>
+                                <option value="SD/MI">SD/MI</option>
+                                <option value="SMP/MTS">SMP/MTS</option>
+                                <option value="SMA/MA">SMA/MA</option>
+                            </select>    
+                        </div>
+                        <div>
+                            <label>Nama Ayah :</label>
+                            <input type='text' placeholder='Masukkan Nama Ayah' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>Nama Ibu :</label>
+                            <input type='text' placeholder='Masukkan Nama Ibu' className='form-control'/>
+                        </div>
+                        <div>
+                            <label>Kondisi :</label>
+                            <select className='form-select'>
+                                <option selected>Pilih kondisi</option>
+                                <option value="Mampu">Mampu</option>
+                                <option value="Tidak Mampu">Tidak Mampu</option>
+                            </select>    
+                        </div>
+                        <div className='d-flex justify-content-end'>
+                            <a className='btn' style={{backgroundColor: "#002B5B", color: "white", width: "150px", marginTop: "20px"}}>Ajukan Data</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
     </>
-  );
+  )
 }

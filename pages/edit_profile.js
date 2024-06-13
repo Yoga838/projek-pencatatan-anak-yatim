@@ -119,6 +119,9 @@ export default function edit_profile() {
                     <a className="nav-link active" aria-current="page" href="home">Pendataan</a>
                 </li>
                 <li className="nav-item">
+                    <a className="nav-link" aria-current="page" href="home">Pengajuan</a>
+                </li>
+                <li className="nav-item">
                     <a className="nav-link" href="cetak">Pencetakan</a>
                 </li>
                 <li className="nav-item">
