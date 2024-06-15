@@ -1,7 +1,19 @@
 import React from 'react'
+import { useState } from 'react'
 
 export default function landing() {
-  return (
+    const [nik,setNik] = useState('')
+    const [nama,setNama] = useState('')
+    const [tempat_lahir,setTempat] = useState('')
+    const [tanggal_lahir,setTgl] = useState('')
+    const [status,setStatus] = useState('')
+    const [anak_ke,setAnak] = useState('')
+    const [jumlah_saudara,setJml] = useState('')
+    const [pendidikan,setPend] = useState('')
+    const [nama_ayah,setAyah] = useState('')
+    const [nama_ibu,setIbu] = useState('')
+    const [kondisi,setKondisi] = useState('')
+    return (
     <>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,23 +57,23 @@ export default function landing() {
                     <form>
                         <div>
                             <label>NIK :</label>
-                            <input type='text' placeholder='Masukkan NIK' className='form-control'/>
+                            <input onChange={(e) => setNik(e.target.value)} type='text' placeholder='Masukkan NIK' className='form-control'/>
                         </div>
                         <div>
                             <label>Nama :</label>
-                            <input type='text' placeholder='Masukkan Nama' className='form-control'/>
+                            <input onChange={(e) => setNama(e.target.value)} type='text' placeholder='Masukkan Nama' className='form-control'/>
                         </div>
                         <div>
                             <label>Tempat lahir :</label>
-                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'/>
+                            <input onChange={(e) => setTempat(e.target.value)} type='text' placeholder='Masukkan tempat lahir' className='form-control'/>
                         </div>
                         <div>
                             <label>Tanggal lahir :</label>
-                            <input type='date' placeholder='mm/dd/yyyy' className='form-control'/>
+                            <input onChange={(e) => setTgl(e.target.value)} type='date' placeholder='mm/dd/yyyy' className='form-control'/>
                         </div>
                         <div>
                             <label>status :</label>
-                            <select className='form-select'>
+                            <select onChange={(e) => setStatus(e.target.value)} className='form-select'>
                                 <option selected>Pilih status</option>
                                 <option value="Yatim">Yatim</option>
                                 <option value="Piatu">Piatu</option>
@@ -70,15 +82,15 @@ export default function landing() {
                         </div>
                         <div>
                             <label>Anak Ke :</label>
-                            <input type='text' placeholder='Anak ke' className='form-control'/>
+                            <input onChange={(e) => setAnak(e.target.value)} type='text' placeholder='Anak ke' className='form-control'/>
                         </div>
                         <div>
                             <label>Jumlah Saudara :</label>
-                            <input type='text' placeholder='Jumlah Saudara, tidak termasuk diri sendiri' className='form-control'/>
+                            <input onChange={(e) => setJml(e.target.value)} type='text' placeholder='Jumlah Saudara, tidak termasuk diri sendiri' className='form-control'/>
                         </div>
                         <div>
                             <label>Pendidikan :</label>
-                            <select className='form-select'>
+                            <select onChange={(e) => setPend(e.target.value)} className='form-select'>
                                 <option selected>Pilih jenjang</option>
                                 <option value="SD/MI">SD/MI</option>
                                 <option value="SMP/MTS">SMP/MTS</option>
@@ -87,15 +99,63 @@ export default function landing() {
                         </div>
                         <div>
                             <label>Nama Ayah :</label>
-                            <input type='text' placeholder='Masukkan Nama Ayah' className='form-control'/>
+                            <input onChange={(e) => setAyah(e.target.value)} type='text' placeholder='Masukkan Nama Ayah' className='form-control'/>
+                        </div>
+                        <div className={status === 'Yatim' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Tempat Lahir :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Yatim' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Jenis Kelamin :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Yatim' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Umur :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Yatim' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Hari Meninggal :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Yatim' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Tanggal Meninggal :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Yatim' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Alasan Meninggal</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
                         </div>
                         <div>
                             <label>Nama Ibu :</label>
-                            <input type='text' placeholder='Masukkan Nama Ibu' className='form-control'/>
+                            <input onChange={(e) => setIbu(e.target.value)} type='text' placeholder='Masukkan Nama Ibu' className='form-control'/>
+                        </div>
+                        <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Tempat Lahir :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Jenis Kelamin :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Umur :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Hari Meninggal :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Tanggal Meninggal :</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
+                        </div>
+                        <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
+                            <label>Alasan Meninggal</label>
+                            <input type='text' placeholder='Masukkan tempat lahir' className='form-control'></input>
                         </div>
                         <div>
                             <label>Kondisi :</label>
-                            <select className='form-select'>
+                            <select onChange={(e) => setKondisi(e.target.value)} className='form-select'>
                                 <option selected>Pilih kondisi</option>
                                 <option value="Mampu">Mampu</option>
                                 <option value="Tidak Mampu">Tidak Mampu</option>
