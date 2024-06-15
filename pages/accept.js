@@ -38,12 +38,11 @@ export default function data_diri() {
     //set data to send
     const send ={"id":Number(id)}
     async function getdata (){
-        const response = await fetch("/api/getdatadetail",{
-            method:"POST",
+        const response = await fetch(`/api/accept?id=${id}`,{
+            method:"GET",
             headers:{
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify(send)
         })
         const data = await response.json()
         setdata(data)
@@ -64,30 +63,29 @@ export default function data_diri() {
 
   //function to delete data 
   async function deletedata(){
-    const response = await fetch("/api/deletedata",{
-        method:"POST",
+    const response = await fetch(`/api/accept?id=${id}`,{
+        method:"DELETE",
         headers:{
             "content-type":"application/json"
-        },
-        body:JSON.stringify(send)
+        }
     })
     const data = await response.json()
     alert(data.message)
-    Router.replace('home')
+    Router.replace('pengajuan')
   }
   //handlebuttonclick
-  const handleButtonClick = (item) => {
-    senddata(data.id,data.nama)
-  };
-  function senddata(setId,setName){
-    Router.push({
-      pathname : "edit_data",
-      query: {
-        id:setId,
-        name:setName
-      }
+  async function Setujui(){
+    const response = await fetch(`/api/accept?id=${id}`,{
+        method:"POST",
+        headers:{
+            "content-type":"application/json"
+        }
     })
+    const data = await response.json()
+    alert(data.message)
+    Router.replace('pengajuan')
   }
+  
   return (
     <>
       <meta charset="utf-8" />
@@ -105,7 +103,7 @@ export default function data_diri() {
                     <a className="nav-link active" aria-current="page" href="home">Pendataan</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" aria-current="page" href="pengajuan">Pengajuan</a>
+                    <a className="nav-link" aria-current="page" href="home">Pengajuan</a>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="cetak">Pencetakan</a>
@@ -127,6 +125,10 @@ export default function data_diri() {
 
             <div className='d-flex justify-content-center pt-4 ps-5 pe-5'>
                 <div class="mb-3 pb-5 d-flex flex-column" style={{backgroundColor: '#A5D7E8', borderRadius:'20px',width:'200vh'}}>
+                    <div className='d-flex flex-column ps-4 pt-4'>
+                        <h5>No Whatsapp Bersangkutan:</h5>
+                        <a className='text-decoration-none text-dark' href={`https://wa.me/${data.noWa}`}>{data.noWa}</a>
+                    </div>
                     <div className='d-flex flex-column ps-4 pt-4'>
                         <h10>NIK : </h10>
                         <h7>{data.nik}</h7>
@@ -232,7 +234,7 @@ export default function data_diri() {
                             <button onClick={(e)=>deletedata()} type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#DF0202', fontWeight:'bold', borderRadius:'30px'}}>Hapus</button>
                         </div>
                         <div className="col-sm-auto" style={{marginTop: '45px',}}>
-                            <button onClick={(e)=>handleButtonClick()} type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'30px'}}>Edit</button>
+                            <button onClick={(e)=>Setujui()} type="submit" className="btn text-light" style={{width: '150px',height:'50px' ,backgroundColor:'#00B407', fontWeight:'bold', borderRadius:'30px'}}>Setujui</button>
                         </div>
                     </div>
 

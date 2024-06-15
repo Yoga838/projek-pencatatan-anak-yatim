@@ -51,6 +51,36 @@ model data {
   tanggal_meninggal_ibu  DateTime?
   meninggal_karena_ibu   String?   @default("-")
 }
+model data_pengajuan {
+  id                     Int       @id @default(autoincrement())
+  nik                    String    @unique
+  nama                   String
+  noWa                   String
+  tanggal_lahir          DateTime
+  tempat_lahir           String
+  status                 String
+  anak_ke                String
+  jumlah_saudara         String
+  pendidikan             String
+  nama_ayah              String
+  nama_ibu               String
+  kondisi                String
+  tempat_lahir_ayah      String?   @default("-")
+  tanggal_lahir_ayah     DateTime?
+  jenis_kelamin_ayah     String?   @default("-")
+  umur_ayah              String?   @default("-")
+  hari_meninggal_ayah    String?   @default("-")
+  tanggal_meninggal_ayah DateTime?
+  meninggal_karena_ayah  String?   @default("-")
+  tempat_lahir_ibu       String?   @default("-")
+  tanggal_lahir_ibu      DateTime?
+  jenis_kelamin_ibu      String?   @default("-")
+  umur_ibu               String?   @default("-")
+  hari_meninggal_ibu     String?   @default("-")
+  tanggal_meninggal_ibu  DateTime?
+  meninggal_karena_ibu   String?   @default("-")
+  status_pengajuan       String?     @default("Belum Di Setujui")
+}
 
 model history {
   id         Int      @id @default(autoincrement())
