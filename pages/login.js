@@ -7,7 +7,14 @@ import Router from 'next/router';
 export async function getServerSideProps(ctx){
   const cookies = nookies.get(ctx)
 
-  if(cookies.token){
+  if(cookies.role === "admin"){
+    return{
+      redirect:{
+        destination : 'create-acc'
+    }
+    }
+  }
+  else if(cookies.role === "user"){
     return{
       redirect:{
         destination : 'home'
@@ -41,6 +48,10 @@ export default function Index() {
     const data = await response.json()
     if (data.token){
       nookies.set(null,'token',data.token);
+      nookies.set(null,'role',data.role);
+      if(data.role === 'admin'){
+        Router.push('create-acc')
+      }
       Router.push('home')
     }
     else{

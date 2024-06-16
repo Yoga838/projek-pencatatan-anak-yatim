@@ -5,10 +5,19 @@ import { compare, hash } from "bcrypt";
 
 
 export default async function handler(req,res){
+    if (req.method === "DELETE"){
+            const id = req.query.id
+            const deleted = await prisma.akun.delete({
+                where:{
+                    id:parseInt(id)
+                }
+            })
+            return res.status(200).json({message:"Berhasil menghapus data!"})
+    }
 
     if (req.method === "PUT"){
-        const {nama,email,password,provinsi,kabupaten,kecamatan,desa,kode_pos,alamat_kantor} = req.body
-        if(!nama||!email||!password||!provinsi||!kabupaten||!kecamatan||!desa||!kode_pos||!alamat_kantor){
+        const {nama,email,password} = req.body
+        if(!nama||!email||!password){
             return res.status(400).json({message:"data tidak boleh kosong"})
         }
         const HashedPassword = await hash(password,10)
@@ -17,12 +26,6 @@ export default async function handler(req,res){
                 nama,
                 email,
                 password:HashedPassword,
-                provinsi,
-                kabupaten,
-                kecamatan,
-                desa,
-                kode_pos,
-                alamat_kantor
             }
         })
         return res.status(200).json({message:"Registrasi Berhasil"})

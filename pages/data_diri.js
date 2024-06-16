@@ -14,6 +14,13 @@ export async function getServerSideProps(ctx){
     }
     }
   }
+  else if(cookies.role === "admin"){
+    return{
+      redirect:{
+        destination : '/create-acc'
+    }
+    }
+  }
   return{
     props: {}
   }

@@ -15,6 +15,13 @@ export async function getServerSideProps(ctx){
     }
     }
   }
+  else if(cookies.role === "admin"){
+    return{
+      redirect:{
+        destination : '/create-acc'
+      }
+    }
+  }
   return{
     props: {}
   }
@@ -30,6 +37,7 @@ export default function profile() {
     } 
     const notpop = () => {
       nookies.destroy(null,'token')
+      nookies.destroy(null,'role')
       Router.replace('/')
     }
     //set data setter

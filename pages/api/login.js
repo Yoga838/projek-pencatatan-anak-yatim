@@ -22,6 +22,11 @@ export default async function handler(req, res){
             return res.status(400).json({message:"email atau password yang anda masukkan salah"})
         }
         const token = sign({userId: akun.id}, JWT_SECRET, { expiresIn: '1d'} );
-        return res.status(200).json({token})
-    }   
+        return res.status(200).json({token,role:akun.role})
+    }
+    if(req.method === "GET"){ 
+        const data = await prisma.akun.findMany();
+
+        return res.status(200).json(data)
+    }  
 }

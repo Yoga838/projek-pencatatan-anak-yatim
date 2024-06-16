@@ -12,15 +12,16 @@ datasource db {
 
 model akun {
   id            Int    @id @default(autoincrement())
+  role          String? @default("user")
   nama          String
   email         String @unique
   password      String
-  provinsi      String
-  kabupaten     String
-  kecamatan     String
-  desa          String
-  kode_pos      String
-  alamat_kantor String
+  provinsi      String?  @default("Jawa Timur")
+  kabupaten     String?  @default("Bondowoso")
+  kecamatan     String?  @default("Wringin") 
+  desa          String?  @default("jatitamban")
+  kode_pos      String?  @default("68252")
+  alamat_kantor String?  @default("Desa Jatitamban Rt. 13 Rw.04 Kecamatan Wringin Kabupaten Bondowoso")
 }
 
 model data {
