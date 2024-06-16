@@ -210,11 +210,13 @@ export default function landing() {
                             </div>
                             <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
                                 <label>Tanggal Lahir Ibu :</label>
-                                <input onChange={(e) => set_tanggal_lahir_ibu(e.target.value)} type='text' placeholder='Masukkan tempat lahir' className='form-control' required></input>
+                                <input onChange={(e) => set_tanggal_lahir_ibu(e.target.value)} type='date' placeholder='Masukkan tempat lahir' className='form-control' required></input>
                             </div>
                             <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
                                 <label>Jenis Kelamin :</label>
-                                <input onChange={(e) => setJenisKelaminIbu(e.target.value)} type='text' placeholder='Masukkan tempat lahir' className='form-control' required></input>
+                                <select onChange={(e) => setJenisKelaminIbu(e.target.value)} className='form-control' disabled required>
+                                    <option value='Perempuan' selected>Perempuan</option>
+                                </select>
                             </div>
                             <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
                                 <label>Umur :</label>
@@ -226,7 +228,7 @@ export default function landing() {
                             </div>
                             <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
                                 <label>Tanggal Meninggal :</label>
-                                <input onChange={(e) => set_tanggal_meninggal_ibu(e.target.value)} type='text' placeholder='Masukkan tempat lahir' className='form-control' required></input>
+                                <input onChange={(e) => set_tanggal_meninggal_ibu(e.target.value)} type='date' placeholder='Masukkan tempat lahir' className='form-control' required></input>
                             </div>
                             <div className={status === 'Piatu' ? 'd-block' : status === 'Yatim-Piatu' ? 'd-block' : 'd-none'}>
                                 <label>Alasan Meninggal</label>
